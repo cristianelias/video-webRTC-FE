@@ -121,8 +121,8 @@ export const Chat = () => {
         </Typography>
         <Box sx={{ flexGrow: 1, mb: 2 }}>
           {messages.length > 0 ? (
-            messages.map((message: Message) => (
-              <Box sx={{ mb: 2 }}>
+            messages.map((message: Message, index) => (
+              <Box sx={{ mb: 2 }} key={message.authorId + index}>
                 {message.authorId === socket.id ? (
                   <Typography variant="body1">You said:</Typography>
                 ) : (
