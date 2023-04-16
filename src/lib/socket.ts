@@ -1,3 +1,4 @@
+const webSocketServerURL = import.meta.env.WEBSOCKET_SERVER_URL;
 import { io } from "socket.io-client";
 
-export const socket = io("http://localhost:9001");
+export const socket = io(webSocketServerURL || "http://localhost:9001");
