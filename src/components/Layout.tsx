@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { Link, Typography } from "@mui/material";
 
 const Container = styled.div`
   width: 100%;
@@ -15,32 +16,57 @@ const Container = styled.div`
 
 const Header = styled.header`
   grid-area: header;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Main = styled.main`
   grid-area: main;
   display: flex;
   grid-area: main;
-  background: #40444b;
-  color: #96989d;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  background-color: #f5f5f5;
 `;
 
 const Footer = styled.footer`
   grid-area: footer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #96989d;
+
+  :visited {
+    color: #96989d;
+  }
 `;
 
 const Layout = ({ children }: Props) => {
   return (
     <Container>
-      <Header>Header</Header>
+      <Header>
+        <Typography variant="h5" component="h5">
+          Let's chat! GG ✨
+        </Typography>
+      </Header>
       <Main>{children}</Main>
       <Footer>
-        <h4>
+        <Typography variant="subtitle1" component="h4">
           Made with 🤍 by{" "}
-          <a target="_blank" href="https://github.com/cristianelias">
+          <StyledLink
+            href="https://github.com/cristianelias"
+            target="_blank"
+            rel="noopener"
+          >
             Cris
-          </a>
-        </h4>
+          </StyledLink>
+        </Typography>
       </Footer>
     </Container>
   );

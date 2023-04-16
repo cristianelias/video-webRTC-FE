@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { socket } from "../lib/socket";
-import { spawn } from "child_process";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 type Message = {
   authorName: string;
@@ -85,45 +85,90 @@ export const Chat = () => {
 
   if (!submittedName) {
     return (
-      <section>
+      <Box sx={{ mt: 4 }}>
+        <Typography variant="h5" sx={{ mb: 2 }}>
+          Please enter your name
+        </Typography>
         <form onSubmit={handleSubmitName}>
-          <h2>Please enter your name:</h2>
-          <input type="text" value={name} onChange={handleNameChange} />
-          <button type="submit">Submit</button>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+            <TextField
+              label="Name"
+              variant="outlined"
+              value={name}
+              onChange={handleNameChange}
+              sx={{ flex: 1, mr: 1 }}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              size="large"
+              disabled={name.length < 2}
+            >
+              Submit
+            </Button>
+          </Box>
         </form>
-      </section>
+      </Box>
     );
   }
 
   return (
     <section>
-      <h2>Messages</h2>
-      <div>
-        {messages.length > 0 ? (
-          messages.map((message: Message) => (
-            <div>
-              {message.authorId === socket.id ? (
-                <span>You said:</span>
-              ) : (
-                <span>From: {message.authorName}</span>
-              )}
-              <p>{message.content}</p>
-            </div>
-          ))
-        ) : (
-          <p>No messages yet</p>
-        )}
-      </div>
+      <Box sx={{ mt: 4 }}>
+        <Typography variant="h5">👋 Welcome, {name}!</Typography>
+        <Typography variant="h6" sx={{ mt: 4, mb: 2 }}>
+          Messages
+        </Typography>
+        <Box sx={{ flexGrow: 1, mb: 2 }}>
+          {messages.length > 0 ? (
+            messages.map((message: Message) => (
+              <Box sx={{ mb: 2 }}>
+                {message.authorId === socket.id ? (
+                  <Typography variant="body1">You said:</Typography>
+                ) : (
+                  <Typography variant="body1">{`From: ${message.authorName}`}</Typography>
+                )}
+                <Typography variant="body2">{message.content}</Typography>
+              </Box>
+            ))
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 1,
+                height: "100%",
+              }}
+            >
+              <Typography variant="body2" color="textSecondary">
+                😪 No messages yet
+              </Typography>
+            </Box>
+          )}
+        </Box>
 
-      <form onSubmit={handleSubmitMessage}>
-        <h3>Send a message</h3>
-        <input
-          type="text"
-          onChange={handleChangeOutgoingMessage}
-          value={outgoingMessage}
-        />
-        <button type="submit">Submit</button>
-      </form>
+        <form onSubmit={handleSubmitMessage}>
+          <Typography variant="h5" sx={{ mb: 2 }}>
+            Write a message
+          </Typography>
+          <TextField
+            label="What's on your head now?"
+            variant="outlined"
+            value={outgoingMessage}
+            onChange={handleChangeOutgoingMessage}
+            fullWidth
+            sx={{ mb: 2 }}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={outgoingMessage.length < 2}
+          >
+            Send
+          </Button>
+        </form>
+      </Box>
     </section>
   );
 };
