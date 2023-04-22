@@ -4,7 +4,7 @@ import { socket } from "../../lib/socket";
 export const useSocketConnected = () => {
   useEffect(() => {
     const onSocketConnect = () => {
-      console.log("socket connected");
+      console.log(`socket connected with id ${socket.id}`);
     };
 
     const onSocketDisconnect = () => {

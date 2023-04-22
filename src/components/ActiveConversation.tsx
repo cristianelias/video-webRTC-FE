@@ -1,7 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import { socket } from "../lib/socket";
+import { parseTimestamp } from "./utils/date";
 
-export const ActiveConversation = ({ username, messages }: Props) => {
+export const ActiveConversation = ({
+  username,
+  messages,
+  activeConversationId,
+}: Props) => {
+  console.log("ActiveConversation activeConversationId", activeConversationId);
+
   return (
     <Box sx={{ mt: 4 }}>
       <Typography variant="h5">👋 Welcome, {username}!</Typography>
@@ -18,6 +25,7 @@ export const ActiveConversation = ({ username, messages }: Props) => {
                 <Typography variant="body1">{`From: ${message.authorName}`}</Typography>
               )}
               <Typography variant="body2">{message.content}</Typography>
+              <Box>{parseTimestamp(message.timestamp)}</Box>
             </Box>
           ))
         ) : (
@@ -43,4 +51,5 @@ export const ActiveConversation = ({ username, messages }: Props) => {
 type Props = {
   username: string;
   messages: Message[];
+  activeConversationId: string;
 };

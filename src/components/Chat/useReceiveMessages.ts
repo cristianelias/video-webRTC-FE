@@ -15,6 +15,10 @@ export const useReceiveMessages = ({ messages, setMessages }: Props) => {
     };
   }, []);
 
+  useEffect(() => {
+    console.log("messages", JSON.stringify(messages, null, 2));
+  }, [messages]);
+
   return;
 };
 
