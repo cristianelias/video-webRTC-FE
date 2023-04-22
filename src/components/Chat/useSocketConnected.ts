@@ -1,14 +1,16 @@
 import { useEffect } from "react";
 import { socket } from "../../lib/socket";
 
-export const useSocketConnected = () => {
+export const useSocketConnected = ({ setConnected }: Props) => {
   useEffect(() => {
     const onSocketConnect = () => {
       console.log(`socket connected with id ${socket.id}`);
+      setConnected(true);
     };
 
     const onSocketDisconnect = () => {
       console.log("socket disconnected");
+      setConnected(false);
     };
 
     socket.on("connect", onSocketConnect);
@@ -21,4 +23,8 @@ export const useSocketConnected = () => {
   }, []);
 
   return;
+};
+
+type Props = {
+  setConnected: (connected: boolean) => void;
 };

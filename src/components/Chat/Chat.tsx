@@ -11,15 +11,20 @@ import { useReceiveMessages } from "./useReceiveMessages";
 
 export const Chat = () => {
   const [username, setUsername] = useState<string>("");
+  const [connected, setConnected] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [activeConversationId, setActiveConversationId] =
     useState<string>("public");
 
-  useSocketConnected();
+  useSocketConnected({ setConnected });
   useReceiveMessages({ messages, setMessages });
 
   if (!username) {
     return <SignUp setUsername={setUsername} />;
+  }
+
+  if (!connected) {
+    return <Typography>Connecting...</Typography>;
   }
 
   return (
