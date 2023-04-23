@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { socket } from "../../lib/socket";
+import { Message } from "../../types/Message";
 
 export const useReceiveMessages = ({ messages, setMessages }: Props) => {
   useEffect(() => {

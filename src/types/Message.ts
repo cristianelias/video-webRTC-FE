@@ -1,4 +1,4 @@
-type Message = {
+export type Message = {
   content: string;
   authorUsername: string;
   authorId: string;
