@@ -5,6 +5,8 @@ import { socket } from "../../lib/socket";
 export const useConnectedUsers = ({ setUsers }: Props) => {
   useEffect(() => {
     const onUsers = (users: User[]) => {
+      console.log("users", JSON.stringify(users, null, 2));
+
       setUsers(users.filter((user) => user.id !== socket.id));
     };
 
@@ -15,7 +17,7 @@ export const useConnectedUsers = ({ setUsers }: Props) => {
     };
   }, []);
 
-  return;
+  return null;
 };
 
 type Props = {

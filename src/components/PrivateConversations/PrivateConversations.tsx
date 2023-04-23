@@ -1,13 +1,11 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { User } from "../../types/Users";
-import { socket } from "../../lib/socket";
-import { useConnectedUsers } from "./useConnectedUsers";
 
-export const PrivateConversations = ({ setActiveConversationId }: Props) => {
-  const [users, setUsers] = useState<User[]>();
-  useConnectedUsers({ setUsers });
-
+export const PrivateConversations = ({
+  setActiveConversationId,
+  users,
+}: Props) => {
   const enterPrivateConversation = (id: string) => {
     setActiveConversationId(id);
   };
@@ -25,4 +23,5 @@ export const PrivateConversations = ({ setActiveConversationId }: Props) => {
 
 type Props = {
   setActiveConversationId: (conversationId: string) => void;
+  users?: User[];
 };

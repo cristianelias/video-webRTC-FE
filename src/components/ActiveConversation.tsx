@@ -1,17 +1,34 @@
 import { Box, Typography } from "@mui/material";
 import { socket } from "../lib/socket";
 import { parseTimestamp } from "./utils/date";
+import { getUserById } from "./utils/users";
+import { User } from "../types/Users";
 
 export const ActiveConversation = ({
   username,
   messages,
+  users,
   activeConversationId,
 }: Props) => {
   console.log("ActiveConversation activeConversationId", activeConversationId);
 
   return (
     <Box sx={{ mt: 4 }}>
-      <Typography variant="h5">👋 Welcome, {username}!</Typography>
+      {activeConversationId === "public" ? (
+        <Typography variant="h6">
+          {`👋 Hey, ${username}! Welcome to the public chat, please treat everyone with respect and have fun!`}
+        </Typography>
+      ) : (
+        <Typography variant="h6">
+          {`👋 Hey, ${username}! Please treat ${
+            (
+              getUserById(users, activeConversationId) || {
+                name: "this person",
+              }
+            ).name
+          } with respect and have fun!`}
+        </Typography>
+      )}
       <Typography variant="h6" sx={{ mt: 4, mb: 2 }}>
         Messages
       </Typography>
@@ -24,8 +41,8 @@ export const ActiveConversation = ({
               ) : (
                 <Typography variant="body1">{`From: ${message.authorName}`}</Typography>
               )}
-              <Typography variant="body2">{message.content}</Typography>
-              <Box>{parseTimestamp(message.timestamp)}</Box>
+              <Typography variant="h6">{message.content}</Typography>
+              <Box>Sent at: {parseTimestamp(message.timestamp)}hs</Box>
             </Box>
           ))
         ) : (
@@ -51,5 +68,6 @@ export const ActiveConversation = ({
 type Props = {
   username: string;
   messages: Message[];
+  users: User[];
   activeConversationId: string;
 };

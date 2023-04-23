@@ -8,15 +8,19 @@ import { ActiveConversation } from "../ActiveConversation";
 import { ChatInput } from "../ChatInput";
 import { useSocketConnected } from "./useSocketConnected";
 import { useReceiveMessages } from "./useReceiveMessages";
+import { User } from "../../types/Users";
+import { useConnectedUsers } from "../PrivateConversations/useConnectedUsers";
 
 export const Chat = () => {
   const [username, setUsername] = useState<string>("");
   const [connected, setConnected] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [activeConversationId, setActiveConversationId] =
     useState<string>("public");
 
   useSocketConnected({ setConnected });
+  useConnectedUsers({ setUsers });
   useReceiveMessages({ messages, setMessages });
 
   if (!username) {
@@ -34,6 +38,7 @@ export const Chat = () => {
         <PublicConversation setActiveConversationId={setActiveConversationId} />
         <PrivateConversations
           setActiveConversationId={setActiveConversationId}
+          users={users}
         />
       </section>
 
@@ -41,6 +46,7 @@ export const Chat = () => {
       <ActiveConversation
         username={username}
         messages={messages}
+        users={users}
         activeConversationId={activeConversationId}
       />
 
