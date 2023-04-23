@@ -1,7 +1,8 @@
 import { socket } from "../lib/socket";
+import { Message } from "../types/Message";
 import { parseTimestamp } from "../utils/date";
 
-export const Message = ({ message }: Props) => {
+export const ChatMessage = ({ message }: Props) => {
   const isOwnMessage = message.authorId === socket.id;
 
   return (

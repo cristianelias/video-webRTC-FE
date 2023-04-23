@@ -1,7 +1,8 @@
 import { User } from "../../types/Users";
 import { ConversationHeader } from "../ConversationHeader";
 import { useActiveConversationMessages } from "./useActiveConversationMessages";
-import { Message } from "../Message";
+import { ChatMessage } from "../ChatMessage";
+import { Message } from "../../types/Message";
 
 export const ActiveConversation = ({
   allMessages,
@@ -24,7 +25,7 @@ export const ActiveConversation = ({
       <div>
         {messages.length > 0 ? (
           messages.map((message: Message) => (
-            <Message message={message} key={message.id} />
+            <ChatMessage message={message} key={message.id} />
           ))
         ) : (
           <div>

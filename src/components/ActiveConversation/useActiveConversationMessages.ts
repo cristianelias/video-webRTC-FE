@@ -1,4 +1,5 @@
 import { socket } from "../../lib/socket";
+import { Message } from "../../types/Message";
 
 export const useActiveConversationMessages = ({
   allMessages,

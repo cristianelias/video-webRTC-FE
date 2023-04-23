@@ -7,6 +7,7 @@ import { useReceiveMessages } from "./useReceiveMessages";
 import { User } from "../../types/Users";
 import { useConnectedUsers } from "./useConnectedUsers";
 import { ConversationSelector } from "../ConversationSelector";
+import { Message } from "../../types/Message";
 
 export const Chat = () => {
   const [username, setUsername] = useState<string>("");
