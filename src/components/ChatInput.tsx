@@ -1,23 +1,30 @@
-import { Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { socket } from "../lib/socket";
 
-export const ChatInput = ({ username }: Props) => {
+export const ChatInput = ({ username, activeConversationId }: Props) => {
   const [draft, setDraft] = useState("");
+  const writingPublicMessage = activeConversationId === "public";
 
-  const changeDraft = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeDraft = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDraft(e.target.value);
   };
 
-  const handleSubmitMessage = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const sendMessageOnEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter") {
+      sendMessage();
+    }
+  };
+
+  const sendMessage = () => {
     let error = false;
 
     try {
       socket.emit("message", {
-        authorName: username,
         content: draft,
+        authorUsername: username,
         authorId: socket.id,
+        public: writingPublicMessage,
+        to: writingPublicMessage ? null : activeConversationId,
       });
     } catch (error) {
       error = true;
@@ -29,25 +36,22 @@ export const ChatInput = ({ username }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmitMessage}>
-      <Typography variant="h5" sx={{ mb: 2 }}>
-        Write a message
-      </Typography>
-      <TextField
-        label="What's on your mind now?"
-        variant="outlined"
+    <footer>
+      <h4>Write a message</h4>
+      <textarea
+        placeholder="What's on your mind now?"
         value={draft}
         onChange={changeDraft}
-        fullWidth
-        sx={{ mb: 2 }}
+        onKeyDown={sendMessageOnEnter}
       />
-      <Button type="submit" variant="contained" disabled={draft.length < 2}>
+      <button onClick={sendMessage} disabled={draft.length < 2}>
         Send
-      </Button>
-    </form>
+      </button>
+    </footer>
   );
 };
 
 type Props = {
   username: string;
+  activeConversationId: string;
 };

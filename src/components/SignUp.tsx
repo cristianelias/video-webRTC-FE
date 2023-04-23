@@ -1,4 +1,3 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { socket } from "../lib/socket";
 
@@ -17,30 +16,17 @@ export const SignUp = ({ setUsername }: Props) => {
   };
 
   return (
-    <Box sx={{ mt: 4 }}>
-      <Typography variant="h5" sx={{ mb: 2 }}>
-        Please enter your name
-      </Typography>
+    <div>
+      <h5>Please enter your name</h5>
       <form onSubmit={handleSubmitName}>
-        <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-          <TextField
-            label="Name"
-            variant="outlined"
-            value={name}
-            onChange={handleNameChange}
-            sx={{ flex: 1, mr: 1 }}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            size="large"
-            disabled={name.length < 2}
-          >
+        <div>
+          <input placeholder="Name" value={name} onChange={handleNameChange} />
+          <button type="submit" disabled={name.length < 2}>
             Submit
-          </Button>
-        </Box>
+          </button>
+        </div>
       </form>
-    </Box>
+    </div>
   );
 };
 

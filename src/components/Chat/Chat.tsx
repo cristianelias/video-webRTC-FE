@@ -1,15 +1,12 @@
-import { useEffect, useState } from "react";
-import { socket } from "../../lib/socket";
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { PrivateConversations } from "../PrivateConversations/PrivateConversations";
+import { useState } from "react";
 import { SignUp } from "../SignUp";
-import { PublicConversation } from "../PublicConversation";
-import { ActiveConversation } from "../ActiveConversation";
+import { ActiveConversation } from "../ActiveConversation/ActiveConversation";
 import { ChatInput } from "../ChatInput";
 import { useSocketConnected } from "./useSocketConnected";
 import { useReceiveMessages } from "./useReceiveMessages";
 import { User } from "../../types/Users";
-import { useConnectedUsers } from "../PrivateConversations/useConnectedUsers";
+import { useConnectedUsers } from "./useConnectedUsers";
+import { ConversationSelector } from "../ConversationSelector";
 
 export const Chat = () => {
   const [username, setUsername] = useState<string>("");
@@ -28,32 +25,26 @@ export const Chat = () => {
   }
 
   if (!connected) {
-    return <Typography>Connecting...</Typography>;
+    return <div>Connecting...</div>;
   }
 
   return (
     <div>
-      {/* List public and private conversations */}
-      <section>
-        <PublicConversation setActiveConversationId={setActiveConversationId} />
-        <PrivateConversations
-          setActiveConversationId={setActiveConversationId}
-          users={users}
-        />
-      </section>
+      <ConversationSelector
+        setActiveConversationId={setActiveConversationId}
+        users={users}
+      />
 
-      {/* Active conversation  */}
       <ActiveConversation
-        username={username}
-        messages={messages}
+        allMessages={messages}
         users={users}
         activeConversationId={activeConversationId}
       />
 
-      {/* Chat input */}
-      <footer>
-        <ChatInput username={username} />
-      </footer>
+      <ChatInput
+        username={username}
+        activeConversationId={activeConversationId}
+      />
     </div>
   );
 };

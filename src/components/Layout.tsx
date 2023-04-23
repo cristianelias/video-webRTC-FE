@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { Link, Typography } from "@mui/material";
 
 const Container = styled.div`
   width: 100%;
@@ -38,7 +37,7 @@ const Footer = styled.footer`
   justify-content: center;
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled.a`
   text-decoration: none;
   color: #96989d;
 
@@ -51,13 +50,11 @@ const Layout = ({ children }: Props) => {
   return (
     <Container>
       <Header>
-        <Typography variant="h5" component="h5">
-          Let's chat! GG ✨
-        </Typography>
+        <h4>Let's chat! GG ✨</h4>
       </Header>
       <Main>{children}</Main>
       <Footer>
-        <Typography variant="subtitle1" component="h4">
+        <h4>
           Made with 🤍 by{" "}
           <StyledLink
             href="https://github.com/cristianelias"
@@ -66,7 +63,7 @@ const Layout = ({ children }: Props) => {
           >
             Cris
           </StyledLink>
-        </Typography>
+        </h4>
       </Footer>
     </Container>
   );
