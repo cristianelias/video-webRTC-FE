@@ -93,6 +93,10 @@ export const GlobalStyles = () => (
         font-size: 100%;
         line-height: 1.15;
         margin: 0;
+
+        &:focus {
+          outline: none;
+        }
       }
       button,
       select {

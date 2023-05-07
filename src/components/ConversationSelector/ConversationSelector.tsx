@@ -54,22 +54,15 @@ const styles = {
   `,
 
   searchInput: css`
+    border: none;
     height: 20px;
-
     font-family: "Inter";
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 20px;
-    /* identical to box height, or 125% */
-
-    /* Navy Grey */
     background: inherit;
     color: #707991;
-
-    &:focus {
-      outline: none;
-    }
   `,
 
   searchBarInnerWrapper: css`
@@ -87,7 +80,6 @@ const styles = {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 100%;
     padding: 16px;
     background-color: white;
   `,
