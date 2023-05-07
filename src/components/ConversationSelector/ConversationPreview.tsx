@@ -17,6 +17,10 @@ export const ConversationPreview = ({
         <BigHead {...getRandomOptions()} css={styles.avatar} />
       </div>
       <span>{children}</span>
+      <div>
+        <span>19:48hs</span>
+        <span>2</span>
+      </div>
     </div>
   );
 };
@@ -49,8 +53,5 @@ const styles = {
     }
   `,
 
-  innerContainer: css`
-    height: 53px;
-    width: 53px;
-  `,
+  innerContainer: css``,
 };

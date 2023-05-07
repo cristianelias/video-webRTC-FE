@@ -66,8 +66,6 @@ const styles = {
   footer: css`
     display: flex;
     padding: 1.5rem;
-    align-self: center;
-    place-self: end;
     width: 100%;
     gap: 1rem;
   `,
