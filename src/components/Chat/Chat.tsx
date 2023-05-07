@@ -6,8 +6,10 @@ import { useSocketConnected } from "./useSocketConnected";
 import { useReceiveMessages } from "./useReceiveMessages";
 import { User } from "../../types/Users";
 import { useConnectedUsers } from "./useConnectedUsers";
-import { ConversationSelector } from "../ConversationSelector";
+import { ConversationSelector } from "../ConversationSelector/ConversationSelector";
 import { Message } from "../../types/Message";
+import { ChatLayout } from "./ChatLayout";
+import { css } from "@emotion/react";
 
 export const Chat = () => {
   const [username, setUsername] = useState<string>("");
@@ -22,30 +24,60 @@ export const Chat = () => {
   useReceiveMessages({ messages, setMessages });
 
   if (!username) {
-    return <SignUp setUsername={setUsername} />;
+    return (
+      <ChatLayout>
+        <SignUp setUsername={setUsername} />
+      </ChatLayout>
+    );
   }
 
   if (!connected) {
-    return <div>Connecting...</div>;
+    return (
+      <ChatLayout>
+        <div css={styles.connectingContainer}>Connecting...</div>
+      </ChatLayout>
+    );
   }
 
   return (
-    <div>
-      <ConversationSelector
-        setActiveConversationId={setActiveConversationId}
-        users={users}
-      />
+    <ChatLayout stylesOverrides={styles.chatLayoutOverrides}>
+      <div css={styles.innerWrapper}>
+        <ConversationSelector
+          setActiveConversationId={setActiveConversationId}
+          users={users}
+        />
 
-      <ActiveConversation
-        allMessages={messages}
-        users={users}
-        activeConversationId={activeConversationId}
-      />
+        <ActiveConversation
+          allMessages={messages}
+          users={users}
+          activeConversationId={activeConversationId}
+        />
+      </div>
 
       <ChatInput
         username={username}
         activeConversationId={activeConversationId}
       />
-    </div>
+    </ChatLayout>
   );
+};
+
+const styles = {
+  connectingContainer: css`
+    font-size: 1.5rem;
+    line-height: 2rem;
+  `,
+
+  chatLayoutOverrides: css`
+    flex-direction: column;
+    justify-content: space-between;
+  `,
+
+  innerWrapper: css`
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    flex-grow: 1;
+  `,
 };

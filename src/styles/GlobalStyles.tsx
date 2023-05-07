@@ -1,5 +1,5 @@
 import { Global, css } from "@emotion/react";
-import "@fontsource/lato";
+import "@fontsource/inter";
 
 export const GlobalStyles = () => (
   <Global
@@ -25,7 +25,7 @@ export const GlobalStyles = () => (
         -webkit-text-size-adjust: 100%;
       }
       * {
-        font-family: Lato;
+        font-family: Inter;
       }
 
       body {
@@ -53,6 +53,9 @@ export const GlobalStyles = () => (
       }
       a {
         background-color: transparent;
+
+        color: inherit;
+        text-decoration: inherit;
       }
       abbr[title] {
         border-bottom: none;

@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { socket } from "../lib/socket";
+import { Button } from "./Button";
+import { css } from "@emotion/react";
 
 export const ChatInput = ({ username, activeConversationId }: Props) => {
   const [draft, setDraft] = useState("");
   const writingPublicMessage = activeConversationId === "public";
 
-  const changeDraft = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const changeDraft = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDraft(e.target.value);
   };
 
-  const sendMessageOnEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const sendMessageOnEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       sendMessage();
     }
@@ -36,17 +38,21 @@ export const ChatInput = ({ username, activeConversationId }: Props) => {
   };
 
   return (
-    <footer>
-      <h4>Write a message</h4>
-      <textarea
+    <footer css={styles.footer}>
+      <input
         placeholder="What's on your mind now?"
         value={draft}
         onChange={changeDraft}
         onKeyDown={sendMessageOnEnter}
+        css={styles.input}
       />
-      <button onClick={sendMessage} disabled={draft.length < 2}>
+      <Button
+        styleOverrides={styles.buttonOverrides}
+        onClick={sendMessage}
+        disabled={draft.length < 2}
+      >
         Send
-      </button>
+      </Button>
     </footer>
   );
 };
@@ -54,4 +60,31 @@ export const ChatInput = ({ username, activeConversationId }: Props) => {
 type Props = {
   username: string;
   activeConversationId: string;
+};
+
+const styles = {
+  footer: css`
+    display: flex;
+    padding: 1.5rem;
+    align-self: center;
+    place-self: end;
+    width: 100%;
+    gap: 1rem;
+  `,
+
+  input: css`
+    padding: 1rem;
+    width: 100%;
+    border-radius: 0.5rem;
+  `,
+  buttonOverrides: css`
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border-width: 0;
+
+    :hover {
+      cursor: pointer;
+      opacity: 0.8;
+    }
+  `,
 };
