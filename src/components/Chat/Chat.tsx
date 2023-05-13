@@ -10,6 +10,7 @@ import { ConversationSelector } from "../ConversationSelector/ConversationSelect
 import { Message } from "../../types/Message";
 import { ChatLayout } from "./ChatLayout";
 import { css } from "@emotion/react";
+import { useConversations } from "./useConversations";
 
 export const Chat = () => {
   const [username, setUsername] = useState<string>("");
@@ -22,6 +23,7 @@ export const Chat = () => {
   useSocketConnected({ setConnected });
   useConnectedUsers({ setUsers });
   useReceiveMessages({ messages, setMessages });
+  const conversations = useConversations({ messages, users });
 
   if (!username) {
     return (
@@ -45,19 +47,14 @@ export const Chat = () => {
         <ConversationSelector
           setActiveConversationId={setActiveConversationId}
           users={users}
+          conversations={conversations}
         />
 
         <ActiveConversation
-          allMessages={messages}
-          users={users}
+          conversations={conversations}
           activeConversationId={activeConversationId}
         />
       </div>
-
-      <ChatInput
-        username={username}
-        activeConversationId={activeConversationId}
-      />
     </ChatLayout>
   );
 };

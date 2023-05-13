@@ -17,11 +17,12 @@ const styles = {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 16px;
+    padding: 12px;
     background-color: white;
     max-width: 100%;
     position: relative;
     align-self: normal;
+    height: 56px;
   `,
 
   innerWrapper: css`
@@ -29,7 +30,6 @@ const styles = {
     flex-direction: row;
     align-items: center;
     padding: 16px;
-    height: 40px;
     background: #f5f5f5;
     border-radius: 22px;
     gap: 16px;

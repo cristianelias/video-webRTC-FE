@@ -2,11 +2,16 @@ import { User } from "../../types/Users";
 import { ConversationPreview } from "./ConversationPreview";
 import { css } from "@emotion/react";
 import { ConversationSearch } from "./ConversationSearch/ConversationSearch";
+import { Conversations } from "../../types/Message";
+import { useConversationPreviews } from "./useConversationPreviews";
 
 export const ConversationSelector = ({
   setActiveConversationId,
   users,
+  conversations,
 }: Props) => {
+  const conversationPreviews = useConversationPreviews({ conversations });
+
   return (
     <aside css={styles.container}>
       <ConversationSearch />
@@ -14,19 +19,18 @@ export const ConversationSelector = ({
       <div css={styles.conversationPreviewList}>
         <ConversationPreview
           id="public"
+          lastMessage={conversationPreviews.public}
           setActiveConversationId={setActiveConversationId}
-        >
-          Broadcast
-        </ConversationPreview>
+        />
 
         {users.map((user: User) => (
           <ConversationPreview
             id={user.id}
             setActiveConversationId={setActiveConversationId}
             key={user.id}
-          >
-            {user.name}
-          </ConversationPreview>
+            name={user.name}
+            lastMessage={conversationPreviews[user.id]}
+          />
         ))}
       </div>
     </aside>
@@ -36,6 +40,7 @@ export const ConversationSelector = ({
 type Props = {
   setActiveConversationId: (conversationId: string) => void;
   users: User[];
+  conversations: Conversations;
 };
 
 const styles = {
@@ -46,6 +51,8 @@ const styles = {
     align-items: center;
     height: 100%;
     width: 30%;
+    min-width: 460px; // TODO: Keep in mind this is arbitrary
+    background-color: white;
   `,
 
   conversationPreviewList: css`

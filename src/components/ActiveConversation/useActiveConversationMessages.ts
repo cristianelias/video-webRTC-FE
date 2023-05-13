@@ -1,28 +1,16 @@
 import { socket } from "../../lib/socket";
-import { Message } from "../../types/Message";
+import { Conversations, Message } from "../../types/Message";
 
 export const useActiveConversationMessages = ({
-  allMessages,
+  conversations,
   activeConversationId,
 }: Props) => {
-  if (activeConversationId === "public") {
-    return allMessages.filter((msg) => msg.public);
-  }
-
-  return allMessages.filter((msg) => {
-    const sentByCurrentUser = msg.authorId === socket.id;
-    const sentToCurrentUser = msg.to === socket.id;
-    const sentByCurrentRecipient = msg.authorId === activeConversationId;
-    const sentToCurrentRecipient = msg.to === activeConversationId;
-
-    return (
-      (sentByCurrentUser && sentToCurrentRecipient) ||
-      (sentByCurrentRecipient && sentToCurrentUser)
-    );
-  });
+  return activeConversationId === "public"
+    ? conversations.public
+    : conversations[activeConversationId];
 };
 
 type Props = {
-  allMessages: Message[];
+  conversations: Conversations;
   activeConversationId: string;
 };

@@ -2,8 +2,10 @@ import { useState } from "react";
 import { socket } from "../lib/socket";
 import { Button } from "./Button";
 import { css } from "@emotion/react";
+import { ReactComponent as SmileyFace } from "../assets/icons/smiley-face.svg";
+import { ReactComponent as Send } from "../assets/icons/send.svg";
 
-export const ChatInput = ({ username, activeConversationId }: Props) => {
+export const ChatInput = ({ activeConversationId }: Props) => {
   const [draft, setDraft] = useState("");
   const writingPublicMessage = activeConversationId === "public";
 
@@ -23,7 +25,6 @@ export const ChatInput = ({ username, activeConversationId }: Props) => {
     try {
       socket.emit("message", {
         content: draft,
-        authorUsername: username,
         authorId: socket.id,
         public: writingPublicMessage,
         to: writingPublicMessage ? null : activeConversationId,
@@ -38,43 +39,66 @@ export const ChatInput = ({ username, activeConversationId }: Props) => {
   };
 
   return (
-    <footer css={styles.footer}>
+    <div css={styles.container}>
+      <div css={styles.leftColumn}>
+        <SmileyFace />
+      </div>
+
       <input
-        placeholder="What's on your mind now?"
+        placeholder="Type a message"
         value={draft}
         onChange={changeDraft}
         onKeyDown={sendMessageOnEnter}
         css={styles.input}
       />
-      <Button
-        styleOverrides={styles.buttonOverrides}
-        onClick={sendMessage}
-        disabled={draft.length < 2}
-      >
-        Send
-      </Button>
-    </footer>
+
+      <div css={styles.button(draft.length < 2)} onClick={sendMessage}>
+        <Send />
+      </div>
+    </div>
   );
 };
 
 type Props = {
-  username: string;
   activeConversationId: string;
 };
 
 const styles = {
-  footer: css`
+  container: css`
     display: flex;
-    padding: 1.5rem;
-    width: 100%;
+    justify-content: space-between;
+    width: 80%;
     gap: 1rem;
+    background-color: white;
+    align-self: center;
+    padding: 8px 16px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+  `,
+
+  button: (disabled: boolean) => css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: ${disabled ? 0.5 : 1};
+    transition: opacity 0.2s ease-in-out;
+    cursor: ${disabled ? "not-allowed" : "pointer"};
+  `,
+
+  leftColumn: css`
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   `,
 
   input: css`
     padding: 1rem;
     width: 100%;
     border-radius: 0.5rem;
+    border: none;
   `,
+
   buttonOverrides: css`
     padding: 1rem;
     border-radius: 0.5rem;

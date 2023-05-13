@@ -7,3 +7,13 @@ export type Message = {
   timestamp: string;
   id: string;
 };
+
+export type Conversations = {
+  public: Message[];
+  [key: string]: Message[];
+};
+
+export type Previews = {
+  public: string | Message;
+  [key: string]: string | Message;
+};
