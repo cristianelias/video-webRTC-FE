@@ -13,7 +13,7 @@ export const ChatMessage = ({ message }: Props) => {
         <h4>{`From: ${message.authorUsername}`}</h4>
       )}
       <h4>{message.content}</h4>
-      <div>Sent at: {parseTimestamp(message.timestamp)}hs</div>
+      <div>Sent at: {parseTimestamp(message.timestamp)}</div>
     </div>
   );
 };

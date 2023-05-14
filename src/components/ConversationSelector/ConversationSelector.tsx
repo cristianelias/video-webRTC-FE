@@ -10,8 +10,7 @@ export const ConversationSelector = ({
   users,
   conversations,
 }: Props) => {
-  const conversationPreviews = useConversationPreviews({ conversations });
-
+  const previews = useConversationPreviews({ conversations });
   return (
     <aside css={styles.container}>
       <ConversationSearch />
@@ -19,7 +18,8 @@ export const ConversationSelector = ({
       <div css={styles.conversationPreviewList}>
         <ConversationPreview
           id="public"
-          lastMessage={conversationPreviews.public}
+          lastMessage={previews.public.message}
+          unreadCount={previews.public.unreadCount}
           setActiveConversationId={setActiveConversationId}
         />
 
@@ -29,7 +29,8 @@ export const ConversationSelector = ({
             setActiveConversationId={setActiveConversationId}
             key={user.id}
             name={user.name}
-            lastMessage={conversationPreviews[user.id]}
+            lastMessage={previews[user.id].message}
+            unreadCount={previews[user.id].unreadCount}
           />
         ))}
       </div>

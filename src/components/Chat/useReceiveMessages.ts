@@ -5,8 +5,7 @@ import { Message } from "../../types/Message";
 export const useReceiveMessages = ({ messages, setMessages }: Props) => {
   useEffect(() => {
     const onMessage = (message: Message) => {
-      // @ts-ignore
-      setMessages((messages) => [...messages, message]);
+      setMessages((messages) => [...messages, { ...message, read: false }]);
     };
 
     socket.on("message", onMessage);
@@ -25,5 +24,5 @@ export const useReceiveMessages = ({ messages, setMessages }: Props) => {
 
 type Props = {
   messages: Message[];
-  setMessages: (messages: Message[]) => void;
+  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 };

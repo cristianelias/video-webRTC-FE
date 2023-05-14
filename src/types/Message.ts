@@ -6,14 +6,25 @@ export type Message = {
   to: string | null;
   timestamp: string;
   id: string;
+  read?: boolean; // they come from the server without this property
+};
+
+export type Conversation = {
+  messages: Message[];
+  unreadCount: number;
 };
 
 export type Conversations = {
-  public: Message[];
-  [key: string]: Message[];
+  public: Conversation;
+  [key: string]: Conversation;
 };
 
 export type Previews = {
-  public: string | Message;
-  [key: string]: string | Message;
+  public: Preview;
+  [key: string]: Preview;
+};
+
+export type Preview = {
+  message: string | Message;
+  unreadCount: number;
 };

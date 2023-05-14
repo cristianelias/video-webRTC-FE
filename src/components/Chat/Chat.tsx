@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { SignUp } from "../SignUp";
 import { ActiveConversation } from "../ActiveConversation/ActiveConversation";
-import { ChatInput } from "../ChatInput";
 import { useSocketConnected } from "./useSocketConnected";
 import { useReceiveMessages } from "./useReceiveMessages";
 import { User } from "../../types/Users";
@@ -53,6 +52,7 @@ export const Chat = () => {
         <ActiveConversation
           conversations={conversations}
           activeConversationId={activeConversationId}
+          setMessages={setMessages}
         />
       </div>
     </ChatLayout>

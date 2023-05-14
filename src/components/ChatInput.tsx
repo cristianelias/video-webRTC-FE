@@ -28,6 +28,8 @@ export const ChatInput = ({ activeConversationId }: Props) => {
         authorId: socket.id,
         public: writingPublicMessage,
         to: writingPublicMessage ? null : activeConversationId,
+        // @ts-ignore-next-line // 🤷🏻‍♂️
+        authorUsername: socket.auth.username,
       });
     } catch (error) {
       error = true;

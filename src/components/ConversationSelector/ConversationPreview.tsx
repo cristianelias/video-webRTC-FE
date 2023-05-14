@@ -2,16 +2,21 @@ import { BigHead } from "@bigheads/core";
 import { css } from "@emotion/react";
 import Avatar from "boring-avatars";
 import { Message } from "../../types/Message";
+import { parseTimestamp } from "../../utils/date";
 
 export const ConversationPreview = ({
   id,
   name,
   lastMessage,
   setActiveConversationId,
+  unreadCount,
 }: Props) => {
   const handleClick = () => {
     setActiveConversationId(id);
   };
+
+  const isPlaceholderMessage = typeof lastMessage === "string";
+  const message = isPlaceholderMessage ? lastMessage : lastMessage.content;
 
   return (
     <div css={styles.container} onClick={handleClick}>
@@ -28,16 +33,21 @@ export const ConversationPreview = ({
         <strong css={styles.name}>
           {id === "public" ? "Broadcast" : name}
         </strong>
-        <span css={styles.message}>
-          {typeof lastMessage === "string" ? lastMessage : lastMessage.content}
-        </span>
+        <span css={styles.message}>{message}</span>
       </div>
 
       <div css={styles.rightColumn}>
-        <span css={styles.timestamp}>19:48hs</span>
-        <div css={styles.unreadCountContainer}>
-          <span css={styles.unreadCount}>2</span>
-        </div>
+        {isPlaceholderMessage ? null : (
+          <span css={styles.timestamp}>
+            {parseTimestamp(lastMessage.timestamp)}
+          </span>
+        )}
+
+        {unreadCount === 0 ? null : (
+          <div css={styles.unreadCountContainer}>
+            <span css={styles.unreadCount}>{unreadCount}</span>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -47,7 +57,8 @@ type Props = {
   id: string;
   setActiveConversationId: (conversationId: string) => void;
   name?: string;
-  lastMessage: string | Message;
+  lastMessage: Message | string;
+  unreadCount: number;
 };
 
 const styles = {
@@ -55,7 +66,6 @@ const styles = {
     display: flex;
     flex-direction: row;
     align-items: center;
-    /* justify-content: space-between; */
     padding: 12px 16px;
     gap: 16px;
     background-color: white;

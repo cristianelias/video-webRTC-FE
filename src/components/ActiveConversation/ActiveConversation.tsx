@@ -8,11 +8,13 @@ import { ChatInput } from "../ChatInput";
 export const ActiveConversation = ({
   conversations,
   activeConversationId,
+  setMessages,
 }: Props) => {
   console.log("ActiveConversation activeConversationId", activeConversationId);
   const messages = useActiveConversationMessages({
     conversations,
     activeConversationId,
+    setMessages,
   });
 
   return (
@@ -37,6 +39,7 @@ export const ActiveConversation = ({
 type Props = {
   conversations: Conversations;
   activeConversationId: string;
+  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 };
 
 const styles = {
