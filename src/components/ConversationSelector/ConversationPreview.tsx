@@ -17,6 +17,7 @@ export const ConversationPreview = ({
 
   const isPlaceholderMessage = typeof lastMessage === "string";
   const message = isPlaceholderMessage ? lastMessage : lastMessage.content;
+  const allMessageRead = unreadCount === 0;
 
   return (
     <div css={styles.container} onClick={handleClick}>
@@ -37,13 +38,13 @@ export const ConversationPreview = ({
       </div>
 
       <div css={styles.rightColumn}>
-        {isPlaceholderMessage ? null : (
+        {isPlaceholderMessage || allMessageRead ? null : (
           <span css={styles.timestamp}>
             {parseTimestamp(lastMessage.timestamp)}
           </span>
         )}
 
-        {unreadCount === 0 ? null : (
+        {allMessageRead ? null : (
           <div css={styles.unreadCountContainer}>
             <span css={styles.unreadCount}>{unreadCount}</span>
           </div>
