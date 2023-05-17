@@ -10,10 +10,18 @@ export const ConversationSelector = ({
   users,
   conversations,
 }: Props) => {
-  const previews = useConversationPreviews({ conversations });
+  const { filterByUsername, setFilterByUsername, previews } =
+    useConversationPreviews({
+      conversations,
+      users,
+    });
+
   return (
     <aside css={styles.container}>
-      <ConversationSearch />
+      <ConversationSearch
+        filterByUsername={filterByUsername}
+        setFilterByUsername={setFilterByUsername}
+      />
 
       <div css={styles.conversationPreviewList}>
         <ConversationPreview
@@ -23,16 +31,20 @@ export const ConversationSelector = ({
           setActiveConversationId={setActiveConversationId}
         />
 
-        {users.map((user: User) => (
-          <ConversationPreview
-            id={user.id}
-            setActiveConversationId={setActiveConversationId}
-            key={user.id}
-            name={user.name}
-            lastMessage={previews[user.id].message}
-            unreadCount={previews[user.id].unreadCount}
-          />
-        ))}
+        {users.map((user: User) => {
+          if (previews[user.id]) {
+            return (
+              <ConversationPreview
+                id={user.id}
+                setActiveConversationId={setActiveConversationId}
+                key={user.id}
+                name={user.name}
+                lastMessage={previews[user.id].message}
+                unreadCount={previews[user.id].unreadCount}
+              />
+            );
+          }
+        })}
       </div>
     </aside>
   );

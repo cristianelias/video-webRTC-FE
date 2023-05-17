@@ -1,15 +1,34 @@
 import { css } from "@emotion/react";
 import { ReactComponent as MagnifierGlassIcon } from "../../../assets/icons/magnifier-glass.svg";
 
-export const ConversationSearch = () => {
+export const ConversationSearch = ({
+  setFilterByUsername,
+  filterByUsername,
+}: Props) => {
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+
+    setFilterByUsername(value);
+  };
+
   return (
     <div css={styles.container}>
       <div css={styles.innerWrapper}>
         <MagnifierGlassIcon />
-        <input placeholder="Search" css={styles.input} />
+        <input
+          placeholder="Find people..."
+          css={styles.input}
+          onChange={handleSearch}
+          value={filterByUsername}
+        />
       </div>
     </div>
   );
+};
+
+type Props = {
+  setFilterByUsername: (username: string) => void;
+  filterByUsername: string;
 };
 
 const styles = {

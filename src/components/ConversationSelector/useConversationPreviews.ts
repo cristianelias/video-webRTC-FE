@@ -1,7 +1,14 @@
+import { useState } from "react";
 import { socket } from "../../lib/socket";
 import { Conversations, Message, Preview, Previews } from "../../types/Message";
+import { User } from "../../types/Users";
+import { getUsernameById } from "../../utils/users";
 
-export const useConversationPreviews = ({ conversations }: Props): Previews => {
+export const useConversationPreviews = ({ conversations, users }: Props) => {
+  const [filterByUsername, setFilterByUsername] = useState<string>("");
+  const mustFilter = filterByUsername.length > 0;
+  const rawConversations = Object.entries(conversations);
+
   const previews: Previews = {
     public: {
       message: "Nothing said yet",
@@ -9,7 +16,15 @@ export const useConversationPreviews = ({ conversations }: Props): Previews => {
     },
   };
 
-  Object.entries(conversations).forEach(([id, conversation]) => {
+  const processedConversations = mustFilter
+    ? rawConversations.filter(([id, conversation]) => {
+        return getUsernameById(users, id)
+          ?.toLowerCase()
+          .includes(filterByUsername.toLowerCase());
+      })
+    : rawConversations;
+
+  processedConversations.forEach(([id, conversation]) => {
     let currentVal: Preview = {
       message: "Nothing said yet",
       unreadCount: conversation.unreadCount,
@@ -36,9 +51,14 @@ export const useConversationPreviews = ({ conversations }: Props): Previews => {
     previews[id] = currentVal;
   });
 
-  return previews;
+  return {
+    previews,
+    filterByUsername,
+    setFilterByUsername,
+  };
 };
 
 type Props = {
   conversations: Conversations;
+  users: User[];
 };
